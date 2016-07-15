@@ -9,7 +9,7 @@ module.exports = {
     entry: [
         'webpack/hot/dev-server',
         'webpack-hot-middleware/client',
-        path.join(__dirname, 'app/main.jsx'),
+        path.join(__dirname, '/app/main.jsx'),
     ],
 
     output: {
@@ -33,7 +33,7 @@ module.exports = {
             {
                 test: /\.jsx?$/,
                 exclude: /(node_modules|bower_components)/,
-                loaders: ['react-hot', 'babel']
+                loaders: ['react-hot', 'babel?presets[]=react,presets[]=es2015'],
             }
         ]
     }
