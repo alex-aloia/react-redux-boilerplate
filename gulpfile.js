@@ -1,6 +1,12 @@
 var gulp = require('gulp'),
     path = require('path'),
+
+    sass = require('gulp-sass'),
+    sassIncl = require('sass-include-paths'),
+    sourcemaps = require('gulp-sourcemaps'),
+
     browserSync = require('browser-sync'),
+
     webpack = require('webpack'),
     webpackDevMiddleware = require('webpack-dev-middleware'),
     webpackHotMiddleware = require('webpack-hot-middleware');
@@ -8,8 +14,28 @@ var gulp = require('gulp'),
 var webpackSettings = require('./webpack.config'),
     bundler = webpack(webpackSettings);
 
+/**
+ * SCSS tasks
+ */
+// auto imports packages instead of using relative import paths
+// setup include paths from node_modules, bower_components, etc.
+scssIncludePaths = []
+    .concat(sassIncl.nodeModulesSync());
 
-gulp.task('dev', function(){
+gulp.task('styles', function () {
+
+    gulp.src('./app/styles/**/*.scss')
+        .pipe(sourcemaps.init())
+        .pipe(sass.sync({
+            // includePaths: scssIncludePaths
+            includePaths: scssIncludePaths
+        }).on('error', sass.logError))
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest('./build/styles/'));
+});
+
+
+gulp.task('dev', function () {
     browserSync({
         server: {
             baseDir: './build',
@@ -22,7 +48,7 @@ gulp.task('dev', function(){
                 webpackHotMiddleware(bundler)
             ]
         },
-        open: true,
+        open: false,
         logFileChanges: true,
 
         // no need to watch '*.js' here, webpack will take care of it for us,
@@ -31,4 +57,7 @@ gulp.task('dev', function(){
             './build/index.html'
         ]
     });
+
+    gulp.watch('./app/styles/**/*', ['styles']);
+
 });
