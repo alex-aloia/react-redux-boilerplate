@@ -27,7 +27,6 @@ gulp.task('styles', function () {
     gulp.src('./app/styles/**/*.scss')
         .pipe(sourcemaps.init())
         .pipe(sass.sync({
-            // includePaths: scssIncludePaths
             includePaths: scssIncludePaths
         }).on('error', sass.logError))
         .pipe(sourcemaps.write())
@@ -43,7 +42,10 @@ gulp.task('dev', function () {
             middleware: [
                 webpackDevMiddleware(bundler, {
                     publicPath: webpackSettings.output.publicPath,
-                    stats: {colors: true}
+                    stats: {
+                        colors: true,
+                        chunks: false
+                    }
                 }),
                 webpackHotMiddleware(bundler)
             ]
@@ -61,3 +63,6 @@ gulp.task('dev', function () {
     gulp.watch('./app/styles/**/*', ['styles']);
 
 });
+
+
+gulp.task('default', ['dev']);

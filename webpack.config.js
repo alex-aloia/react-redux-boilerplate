@@ -3,8 +3,6 @@ var path = require('path');
 
 module.exports = {
     debug: true,
-    // devtool: '#eval-source-map',
-    // context: path.join(__dirname, 'app', 'js'),
 
     entry: [
         'webpack/hot/dev-server',
@@ -29,9 +27,16 @@ module.exports = {
     ],
 
     module: {
+        preLoaders: [
+            {
+                test: /\.jsx$|\.js$/,
+                exclude: /(node_modules|bower_components)/,
+                loader: "eslint-loader"
+            }
+        ],
         loaders: [
             {
-                test: /\.jsx?$/,
+                test: /\.jsx$|\.js$/,
                 exclude: /(node_modules|bower_components)/,
                 loaders: ['react-hot', 'babel?presets[]=react,presets[]=es2015'],
             }
