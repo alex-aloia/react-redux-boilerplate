@@ -37,7 +37,7 @@ gulp.task('styles', function () {
 gulp.task('dev', function () {
     browserSync({
         server: {
-            baseDir: './build',
+            baseDir: 'build',
 
             middleware: [
                 webpackDevMiddleware(bundler, {
@@ -56,12 +56,25 @@ gulp.task('dev', function () {
         // no need to watch '*.js' here, webpack will take care of it for us,
         // including full page reloads if HMR won't work
         files: [
-            './build/index.html'
+            'build/index.html'
         ]
     });
 
     gulp.watch('./app/styles/**/*', ['styles']);
 
+});
+
+
+gulp.task('build', function(done) {
+    webpack(webpackSettings).run(function(err, stats) {
+        if(err) {
+            console.log('Error', err);
+        }
+        else {
+            console.log(stats.toString());
+        }
+        done();
+    });
 });
 
 

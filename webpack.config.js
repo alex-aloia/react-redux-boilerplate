@@ -3,16 +3,17 @@ var path = require('path');
 
 module.exports = {
     debug: true,
+    devtool: 'source-map',
 
     entry: [
         'webpack/hot/dev-server',
         'webpack-hot-middleware/client',
-        path.join(__dirname, '/app/main.jsx'),
+        path.join(__dirname, 'app/main.jsx'),
     ],
 
     output: {
         path: path.join(__dirname, 'build', 'js'),
-        publicPath: '/js/',
+        publicPath: '/build/js/',
         filename: 'bundle.js'
     },
 
@@ -23,7 +24,8 @@ module.exports = {
     plugins: [
         new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin()
+        // cant use w/ es-lint
+        // new webpack.NoErrorsPlugin()
     ],
 
     module: {
