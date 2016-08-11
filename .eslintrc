@@ -2,21 +2,32 @@
   // Extend existing configuration
   // from ESlint and eslint-plugin-react defaults.
   "extends": [
-    "eslint:recommended", "plugin:react/recommended"
+    "eslint:recommended",
+    "plugin:react/recommended"
   ],
+
   // Enable ES6 support.
   "parserOptions": {
     "ecmaVersion": 6,
-    "sourceType": "module"
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true,
+      // might not need this
+      "jsx": true
+    }
   },
+
   "env": {
     "browser": true,
     "node": true
   },
+
+  // thought we didnt need this, as its defined above???
   // Enable custom plugin known as eslint-plugin-react
   "plugins": [
     "react"
   ],
+
   "rules": {
     // Disable `no-console` rule
     "no-console": 0,
@@ -24,6 +35,19 @@
     "no-underscore-dangle": 1,
     // Default to single quotes and raise an error if something
     // else is used
-    "quotes": [2, "single", {"allowTemplateLiterals": true}]
+    "quotes": [
+      1,
+      "single",
+      {
+        "allowTemplateLiterals": true
+      }
+    ],
+    "no-unused-vars": [
+      1,
+      {
+        "vars": "all",
+        "args": "after-used"
+      }
+    ]
   }
 }

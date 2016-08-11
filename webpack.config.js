@@ -7,13 +7,14 @@ module.exports = {
 
     entry: [
         'webpack/hot/dev-server',
-        'webpack-hot-middleware/client',
-        path.join(__dirname, 'app/main.jsx'),
+        // disable browser warning overlay
+        'webpack-hot-middleware/client?overlay=false',
+        path.join(__dirname, 'app/index.js'),
     ],
 
     output: {
         path: path.join(__dirname, 'build', 'js'),
-        publicPath: '/build/js/',
+        publicPath: '/js/',
         filename: 'bundle.js'
     },
 
@@ -28,6 +29,10 @@ module.exports = {
         // new webpack.NoErrorsPlugin()
     ],
 
+    // eslint: {
+    //     emitError: false
+    // },
+
     module: {
         preLoaders: [
             {
@@ -40,7 +45,18 @@ module.exports = {
             {
                 test: /\.jsx$|\.js$/,
                 exclude: /(node_modules|bower_components)/,
-                loaders: ['react-hot', 'babel?presets[]=react,presets[]=es2015'],
+                loader: 'react-hot',
+            },
+            {
+                test: /\.jsx$|\.js$/,
+                exclude: /(node_modules|bower_components)/,
+                // loaders: ['react-hot', 'babel?presets[]=react,presets[]=es2015,plugins[]=babel-plugin-transform-object-rest-spread'],
+
+                loader: 'babel',
+                query: {
+                    presets: ['react', 'es2015'],
+                    plugins: ['babel-plugin-transform-object-rest-spread']
+                }
             }
         ]
     }
